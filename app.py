@@ -70,9 +70,10 @@ def add_device():
             return redirect(url_for("index"))
     return render_template("add_device.html")
 
-@app.before_first_request
+@app.before_request
 def start_monitoring():
-    device_manager.start_monitoring()
+    if not hasattr(device_manager, 'status_thread'):
+        device_manager.start_monitoring()
 
 @app.teardown_appcontext
 def shutdown_session(exception=None):
