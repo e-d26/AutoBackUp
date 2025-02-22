@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add New Device</title>
+</head>
+<body>
+    <h1>Add New Device</h1>
+
+    <form method="POST" action="{{ url_for('add_device') }}" enctype="multipart/form-data">
+        <label for="vendor_id">Vendor ID:</label><br>
+        <input type="text" id="vendor_id" name="vendor_id"><br><br>
+
+        <label for="product_id">Product ID:</label><br>
+        <input type="text" id="product_id" name="product_id"><br><br>
+
+        <label for="phone_name">Phone Name:</label>
+        <input type="text" id="phone_name" name="phone_name"><br><br>
+
+        <label for="image">Device Image:</label><br>
+        <input type="file" id="image" name="image"><br><br>
+
+        <input type="submit" value="Add Device">
+    </form>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+</body>
+</html>

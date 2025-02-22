@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Phone Backup</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Phone Backup</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Device Image</th>
+                <th>Device Name</th>
+                <th>Status</th>
+                <th>Backup Status</th>
+                <th>Backup Progress</th>
+                <th>Action</th>
+                <th>ADB Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for device in devices %}
+            <tr>
+                <td>
+                    {% if device.image_filename %}
+                        <img src="{{ url_for('send_image', filename=device.image_filename) }}" alt="{{ device.name }}" width="50">
+                    {% else %}
+                        No Image
+                    {% endif %}
+                </td>
+                <td>{{ device.name or 'Unknown' }}</td>
+                <td>{{ device.status }}</td>
+                <td>{{ device.backup_status }}</td>
+                <td>
+                    {% if device.backup_status == "Backing Up" %}
+                        <progress value="{{ device.backup_progress }}" max="100"></progress>
+                        {{ device.backup_progress }}%
+                    {% endif %}
+                </td>
+                <td>
+                    {% if device.status == "Online" and device.backup_status != "Backing Up" and device.identified == True %}
+                        <a href="{{ url_for('start_backup', vendor_id=device.vendor_id, product_id=device.product_id) }}">Backup</a>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if device.serial %}
+                        ADB OK
+                    {% else %}
+                        ADB Error
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('add_device') }}">Add New Device</a>
+
+</body>
+</html>
