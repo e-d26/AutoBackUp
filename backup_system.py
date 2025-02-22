@@ -4,7 +4,7 @@ import os
 import json
 import subprocess
 
-from config import BACKUP_LOCATION, JSON_PATH
+from my_config import BACKUP_LOCATION, JSON_PATH
 from device_manager import DeviceManager, Device
 
 def backup_device(device: Device, device_manager: DeviceManager):
@@ -54,8 +54,8 @@ def backup_device(device: Device, device_manager: DeviceManager):
             device.backup_progress = (current_folder / total_folders) * 100
             print(f"The progress is {device.backup_progress}")
 
-    device.backup_status = "Up-to-date"
-    device.backup_progress = 100
+        device.backup_status = "Up-to-date"
+        device.backup_progress = 100
 
     except Exception as e:
         device.backup_status = "Error"
